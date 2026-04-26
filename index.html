@@ -110,7 +110,7 @@
 
         /* Form Fields - الحقول على اليمين والتسميات على اليسار */
         .form-fields {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start; /* محاذاة لليسار */
@@ -120,8 +120,8 @@
         .field-row {
             display: flex;
 
-            margin-bottom: 15px;
-           align-items: flex-start; /* يبدأ من اليسار */
+            margin-bottom: 10px;
+           align-items: flex-start; /* يبدأ من اليمين */
             width: 100%; /* عرض كامل */
             gap: 8px;
         }
@@ -132,13 +132,13 @@
             color: #333;
             text-align: right; /* محاذاة لليمين */
             white-space: nowrap;
-            order: 1; /* التسمية على اليسار (في النهاية) */
+            order: 1; /* التسمية على اليمين (في النهاية) */
             flex-shrink: 0; /* منع التصغير */
         }
 
         .field-input {
             border: 2px dashed #999;
-            padding: 8px 12px;
+            padding: 14px 12px;
             min-width: 300px;
             font-size: 16px;
             text-align: right;
@@ -146,7 +146,7 @@
             outline: none;
             font-family: inherit;
             color: #000;
-            order: 2; /* الحقل على اليمين (في البداية) */
+            order: 2; /* الحقل على اليسار (في البداية) */
             flex-shrink: 0; /* منع التصغير */
         }
 
@@ -162,10 +162,10 @@
 
         /* Instructions */
         .instructions {
-            margin: 30px 0;
+            margin: 10px 0;
             padding: 20px;
             background: transparent;
-            border-right: 4px solid #1e5aa8;
+            border-right: 5px solid #1e5aa8;
         }
 
         .instructions ul {
@@ -174,8 +174,9 @@
         }
 
         .instructions li {
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin-bottom: 8px;
+           font-size: 14px;
+            font-weight: bold;
             color: #444;
             line-height: 1.6;
             position: relative;
@@ -194,24 +195,24 @@
         .signatures {
             display: flex;
             justify-content: space-between;
-            margin-top: 40px;
+            margin-top: 20px;
             gap: 40px;
         }
 
         .signature-box {
             flex: 1;
-            border: 3px dashed #1e5aa8;
+            border: 3.5px dashed #1e5aa8;
             border-radius: 15px;
             padding: 50px 20px 20px 20px;
             text-align: center;
             position: relative;
-            min-height: 120px;
+            min-height: 160px;
             background: transparent;
         }
 
         .signature-label {
             position: absolute;
-            bottom: 15px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 14px;
@@ -223,7 +224,7 @@
         /* Footer */
         .footer-code {
             text-align: left;
-            margin-top: 70px;
+            margin-top: 60px;
             font-size: 14px;
             color: #666;
             font-family: monospace;
@@ -285,6 +286,7 @@
         .btn-danger { background: #dc3545; color: white; }
         .btn-danger:hover { background: #c82333; }
     </style>
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 </head>
@@ -351,6 +353,7 @@
                 <li>يمنع ادخال واخراج المواد خارج اوقات الدوام الرسمي والعطل الرسمية.</li>
                 <li>يمكن اقامة الانشطة عن طريق ملء استمارة الانشطة الصادرة من قسم التصاريح الامنية.</li>
                 <li>يكون ترشيح المخول بكتاب رسمي صادر من الاتحاد المعني.</li>
+                 <li>ترفق الهوية الموحدة وهوية الاتحاد للمخول.</li>
             </ul>
         </div>
 
