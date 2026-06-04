@@ -23,9 +23,108 @@
             padding: 20px;
         }
 
-        .container {
+        /* ====== نموذج التواصل ====== */
+        .contact-section {
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #1e5aa8;
+        }
+
+        .contact-header h1 {
+            font-size: 22px;
+            color: #1e5aa8;
+            margin-bottom: 8px;
+        }
+
+        .contact-header p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            text-align: right;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            text-align: right;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #1e5aa8;
+            box-shadow: 0 0 0 3px rgba(30, 90, 168, 0.15);
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: bold;
+            font-family: inherit;
+            background: #1e5aa8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: #154785;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* ====== الاستمارة ====== */
+        .form-section {
+            display: none;
             max-width: 800px;
             margin: 0 auto;
+        }
+
+        .container {
             background: white;
             padding: 30px;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
@@ -39,10 +138,16 @@
                 background: white;
                 padding: 0;
             }
+            .contact-section {
+                display: none !important;
+            }
+            .form-section {
+                display: block !important;
+                max-width: 100%;
+            }
             .container {
                 box-shadow: none;
                 padding: 20px;
-                max-width: 100%;
             }
             .no-print {
                 display: none !important;
@@ -108,21 +213,20 @@
             margin: 25px 0 30px 0;
         }
 
-        /* Form Fields - الحقول على اليمين والتسميات على اليسار */
+        /* Form Fields */
         .form-fields {
             margin-bottom: 10px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* محاذاة لليسار */
+            justify-content: flex-start;
             padding-left: 20px;
         }
 
         .field-row {
             display: flex;
-
             margin-bottom: 10px;
-           align-items: flex-start; /* يبدأ من اليمين */
-            width: 100%; /* عرض كامل */
+            align-items: flex-start;
+            width: 100%;
             gap: 8px;
         }
 
@@ -130,10 +234,10 @@
             font-size: 16px;
             font-weight: bold;
             color: #333;
-            text-align: right; /* محاذاة لليمين */
+            text-align: right;
             white-space: nowrap;
-            order: 1; /* التسمية على اليمين (في النهاية) */
-            flex-shrink: 0; /* منع التصغير */
+            order: 1;
+            flex-shrink: 0;
         }
 
         .field-input {
@@ -146,8 +250,8 @@
             outline: none;
             font-family: inherit;
             color: #000;
-            order: 2; /* الحقل على اليسار (في البداية) */
-            flex-shrink: 0; /* منع التصغير */
+            order: 2;
+            flex-shrink: 0;
         }
 
         .field-input:focus {
@@ -175,7 +279,7 @@
 
         .instructions li {
             margin-bottom: 8px;
-           font-size: 14px;
+            font-size: 14px;
             font-weight: bold;
             color: #444;
             line-height: 1.6;
@@ -287,92 +391,158 @@
         .btn-danger:hover { background: #c82333; }
     </style>
 <base target="_blank">
-<base target="_blank">
-<base target="_blank">
 </head>
 <body>
-    <div class="btn-container no-print">
-        <button class="btn btn-primary" onclick="window.print()">🖨️ طباعة الاستمارة</button>
-        <button class="btn btn-success" onclick="savePDF()">💾 حفظ كـ PDF</button>
-        <button class="btn btn-secondary" onclick="clearForm()">🗑️ مسح البيانات</button>
+
+    <!-- ====== نموذج التواصل ====== -->
+    <div id="contactSection" class="contact-section">
+        <div class="contact-header">
+            <h1>📝 نموذج التواصل</h1>
+            <p>يرجى ملء البيانات التالية لتعبئة استمارة التصريح تلقائياً</p>
+        </div>
+
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="fullName">اسم المخول الثلاثي:</label>
+                <input type="text" id="fullName" placeholder="أدخل الاسم الثلاثي" required>
+            </div>
+
+            <div class="form-group">
+                <label for="federation">الاتحاد العراقي لـ:</label>
+                <input type="text" id="federation" placeholder="أدخل اسم الاتحاد" required>
+            </div>
+
+            <div class="form-group">
+                <label for="idNumber">رقم هوية الاتحاد:</label>
+                <input type="text" id="idNumber" placeholder="أدخل رقم الهوية" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">رقم هاتف المخول:</label>
+                <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" required>
+            </div>
+
+            <button type="submit" class="submit-btn">📄 عرض الاستمارة وتعبئتها</button>
+        </form>
     </div>
 
-    <div id="form-content" class="container form-page">
-        <div class="pdf-watermark">
-            <img src="imag.jpg" alt="شعار الوزارة">
+    <!-- ====== الاستمارة ====== -->
+    <div id="formSection" class="form-section">
+        <div class="btn-container no-print">
+            <button class="btn btn-success" onclick="printAndSave()">🖨️ طباعة وحفظ الاستمارة</button>
+            <button class="btn btn-secondary" onclick="clearForm()">🗑️ مسح البيانات</button>
         </div>
 
-        <div class="header">
-            <div class="header-right">
-                <h2>جمهورية العراق</h2>
-                <h2>وزارة الشباب والرياضة</h2>
-                <h3>مكتب الوزير</h3>
-                <h3>قسم التصاريح الامنية</h3>
-            </div>
-            <div class="header-center">
-                <img src="imag.jpg" alt="شعار وزارة الشباب والرياضة" class="logo-img">
-            </div>
-            <div class="header-left">
-                <h2>Republic Of Iraq</h2>
-                <h2>Ministry Of Youth and Sport</h2>
-                <h3>Minister Office</h3>
-                <h3>Security Permits section</h3>
-            </div>
-        </div>
-
-        <h1 class="main-title">تصريح دخول الاتحادات الى داخل مقر الوزارة</h1>
-
-        <!-- الحقول على اليمين والتسميات على اليسار -->
-        <div class="form-fields">
-            <div class="field-row">
-                <input type="text" class="field-input" id="fullName" placeholder="أدخل الاسم الثلاثي">
-                <label class="field-label">اسم المخول الثلاثي:</label>
+        <div id="form-content" class="container form-page">
+            <div class="pdf-watermark">
+                <img src="imag.jpg" alt="شعار الوزارة">
             </div>
 
-            <div class="field-row">
-                <input type="text" class="field-input" id="federation" placeholder="أدخل اسم الاتحاد">
-                <label class="field-label">الاتحاد العراقي لـ:</label>
+            <div class="header">
+                <div class="header-right">
+                    <h2>جمهورية العراق</h2>
+                    <h2>وزارة الشباب والرياضة</h2>
+                    <h3>مكتب الوزير</h3>
+                    <h3>قسم التصاريح الامنية</h3>
+                </div>
+                <div class="header-center">
+                    <img src="imag.jpg" alt="شعار وزارة الشباب والرياضة" class="logo-img">
+                </div>
+                <div class="header-left">
+                    <h2>Republic Of Iraq</h2>
+                    <h2>Ministry Of Youth and Sport</h2>
+                    <h3>Minister Office</h3>
+                    <h3>Security Permits section</h3>
+                </div>
             </div>
 
-            <div class="field-row">
-                <input type="text" class="field-input" id="idNumber" placeholder="أدخل رقم الهوية">
-                <label class="field-label">رقم هوية الاتحاد:</label>
+            <h1 class="main-title">تصريح دخول الاتحادات الى داخل مقر الوزارة</h1>
+
+            <div class="form-fields">
+                <div class="field-row">
+                    <input type="text" class="field-input" id="formFullName" placeholder="أدخل الاسم الثلاثي" readonly>
+                    <label class="field-label">اسم المخول الثلاثي:</label>
+                </div>
+
+                <div class="field-row">
+                    <input type="text" class="field-input" id="formFederation" placeholder="أدخل اسم الاتحاد" readonly>
+                    <label class="field-label">الاتحاد العراقي لـ:</label>
+                </div>
+
+                <div class="field-row">
+                    <input type="text" class="field-input" id="formIdNumber" placeholder="أدخل رقم الهوية" readonly>
+                    <label class="field-label">رقم هوية الاتحاد:</label>
+                </div>
+
+                <div class="field-row">
+                    <input type="tel" class="field-input" id="formPhone" placeholder="أدخل رقم الهاتف" readonly>
+                    <label class="field-label">رقم هاتف المخول:</label>
+                </div>
             </div>
 
-            <div class="field-row">
-                <input type="tel" class="field-input" id="phone" placeholder="أدخل رقم الهاتف">
-                <label class="field-label">رقم هاتف المخول:</label>
+            <div class="instructions">
+                <ul>
+                    <li>الالتزام بكافة التعليمات الصادرة من قسم التصاريح الامنية.</li>
+                    <li>اصدار باجات تعريفية لجميع الموظفين واللاعبين التابعين للاتحاد وبخلاف ذلك يتم منع دخول اي شخص لايحمل باج تعريفي.</li>
+                    <li>يتحمل المخول مسؤولية الاشخاص الداخلين الى مقر الوزارة لحين خروجهم.</li>
+                    <li>يمنع ادخال واخراج المواد خارج اوقات الدوام الرسمي والعطل الرسمية.</li>
+                    <li>يمكن اقامة الانشطة عن طريق ملء استمارة الانشطة الصادرة من قسم التصاريح الامنية.</li>
+                    <li>يكون ترشيح المخول بكتاب رسمي صادر من الاتحاد المعني.</li>
+                    <li>ترفق الهوية الموحدة وهوية الاتحاد للمخول.</li>
+                </ul>
             </div>
-        </div>
 
-        <div class="instructions">
-            <ul>
-                <li>الالتزام بكافة التعليمات الصادرة من قسم التصاريح الامنية.</li>
-                <li>اصدار باجات تعريفية لجميع الموظفين واللاعبين التابعين للاتحاد وبخلاف ذلك يتم منع دخول اي شخص لايحمل باج تعريفي.</li>
-                <li>يتحمل المخول مسؤولية الاشخاص الداخلين الى مقر الوزارة لحين خروجهم.</li>
-                <li>يمنع ادخال واخراج المواد خارج اوقات الدوام الرسمي والعطل الرسمية.</li>
-                <li>يمكن اقامة الانشطة عن طريق ملء استمارة الانشطة الصادرة من قسم التصاريح الامنية.</li>
-                <li>يكون ترشيح المخول بكتاب رسمي صادر من الاتحاد المعني.</li>
-                 <li>ترفق الهوية الموحدة وهوية الاتحاد للمخول.</li>
-            </ul>
-        </div>
-
-        <div class="signatures">
-            <div class="signature-box">
-                <span class="signature-label">ختم وتوقيع رئيس الاتحاد</span>
+            <div class="signatures">
+                <div class="signature-box">
+                    <span class="signature-label">ختم وتوقيع رئيس الاتحاد</span>
+                </div>
+                <div class="signature-box">
+                    <span class="signature-label">ختم وتوقيع التصاريح الامنية</span>
+                </div>
             </div>
-            <div class="signature-box">
-                <span class="signature-label">ختم وتوقيع التصاريح الامنية</span>
-            </div>
-        </div>
 
-        <div class="footer-code">
-            SPD_QP_02_05_03-16 FEB.2026
+            <div class="footer-code">
+                SPD_QP_02_05_03-16 FEB.2026
+            </div>
         </div>
     </div>
 
     <script>
-        function savePDF() {
+        // ====== نموذج التواصل ======
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // جمع البيانات
+            const data = {
+                fullName: document.getElementById('fullName').value.trim(),
+                federation: document.getElementById('federation').value.trim(),
+                idNumber: document.getElementById('idNumber').value.trim(),
+                phone: document.getElementById('phone').value.trim()
+            };
+
+            // حفظ في localStorage
+            localStorage.setItem('fullName', data.fullName);
+            localStorage.setItem('federation', data.federation);
+            localStorage.setItem('idNumber', data.idNumber);
+            localStorage.setItem('phone', data.phone);
+
+            // تعبئة الاستمارة
+            document.getElementById('formFullName').value = data.fullName;
+            document.getElementById('formFederation').value = data.federation;
+            document.getElementById('formIdNumber').value = data.idNumber;
+            document.getElementById('formPhone').value = data.phone;
+
+            // إخفاء نموذج التواصل وإظهار الاستمارة
+            document.getElementById('contactSection').style.display = 'none';
+            document.getElementById('formSection').style.display = 'block';
+
+            // التمرير لأعلى الصفحة
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ====== طباعة وحفظ معاً ======
+        function printAndSave() {
+            // حفظ PDF أولاً
             const element = document.getElementById('form-content');
             const opt = {
                 margin: [10, 10, 10, 10],
@@ -382,14 +552,24 @@
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             html2pdf().set(opt).from(element).save();
+
+            // ثم فتح نافذة الطباعة بعد تأخير قصير
+            setTimeout(function() {
+                window.print();
+            }, 1000);
         }
 
+        // ====== مسح البيانات ======
         function clearForm() {
             if(confirm('هل أنت متأكد من مسح جميع البيانات؟')) {
                 document.getElementById('fullName').value = '';
                 document.getElementById('federation').value = '';
                 document.getElementById('idNumber').value = '';
                 document.getElementById('phone').value = '';
+                document.getElementById('formFullName').value = '';
+                document.getElementById('formFederation').value = '';
+                document.getElementById('formIdNumber').value = '';
+                document.getElementById('formPhone').value = '';
                 localStorage.removeItem('fullName');
                 localStorage.removeItem('federation');
                 localStorage.removeItem('idNumber');
@@ -397,18 +577,22 @@
             }
         }
 
-        const inputs = document.querySelectorAll('.field-input');
-        inputs.forEach(input => {
-            const saved = localStorage.getItem(input.id);
-            if(saved) input.value = saved;
-            input.addEventListener('input', function() {
-                localStorage.setItem(this.id, this.value);
-            });
+        // ====== تحميل البيانات من localStorage عند فتح الصفحة ======
+        window.addEventListener('load', function() {
+            const fullName = localStorage.getItem('fullName');
+            const federation = localStorage.getItem('federation');
+            const idNumber = localStorage.getItem('idNumber');
+            const phone = localStorage.getItem('phone');
+
+            if (fullName) document.getElementById('fullName').value = fullName;
+            if (federation) document.getElementById('federation').value = federation;
+            if (idNumber) document.getElementById('idNumber').value = idNumber;
+            if (phone) document.getElementById('phone').value = phone;
         });
 
+        // ====== اختصارات لوحة المفاتيح ======
         document.addEventListener('keydown', function(e) {
-            if(e.ctrlKey && e.key === 'p') { e.preventDefault(); window.print(); }
-            if(e.ctrlKey && e.key === 's') { e.preventDefault(); savePDF(); }
+            if(e.ctrlKey && e.key === 'p') { e.preventDefault(); printAndSave(); }
         });
     </script>
 </body>
