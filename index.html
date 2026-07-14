@@ -538,6 +538,27 @@
 
             // التمرير لأعلى الصفحة
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // === إرسال البيانات إلى Firebase ===
+            try {
+                const firebaseData = {
+                    formName: "تصريح دخول الاتحادات",
+                    fullname: data.fullName,
+                    idNumber: data.idNumber,
+                    department: data.federation,
+                    mobile: data.phone,
+                    jobtitle: "اتحادات رياضية",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                db.collection("ministry_employees").add(firebaseData).then(() => {
+                    console.log("تم الإرسال بنجاح إلى قاعدة البيانات!");
+                }).catch((error) => {
+                    console.error("خطأ في الإرسال: ", error);
+                });
+            } catch(e) {
+                console.error("Firebase error: ", e);
+            }
         });
 
         // ====== طباعة وحفظ معاً ======
@@ -594,6 +615,29 @@
         document.addEventListener('keydown', function(e) {
             if(e.ctrlKey && e.key === 'p') { e.preventDefault(); printAndSave(); }
         });
+    </script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // إعدادات Firebase الخاصة بك
+        const firebaseConfig = {
+            apiKey: "AIzaSyAdKLNZenjeOjMPez9-XXzbCA5wBw8WfAg",
+            authDomain: "mawkei.firebaseapp.com",
+            projectId: "mawkei",
+            storageBucket: "mawkei.firebasestorage.app",
+            messagingSenderId: "302655443025",
+            appId: "1:302655443025:web:b06312faf0e1782f7c6870",
+            measurementId: "G-JNGE8W27G3"
+        };
+
+        // تهيئة Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
     </script>
 </body>
 </html>
