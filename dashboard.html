@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تصريح دخول الاتحادات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* --- Header Card --- */
+        .header-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            margin-bottom: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-box {
+            background-color: #fef3c7; /* Light yellow background */
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #d97706; /* Dark orange */
+            font-size: 24px;
+        }
+
+        .title-box h1 {
+            font-size: 22px;
+            color: #1f2937;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .title-box p {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .pill-connected {
+            background-color: #ecfdf5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+        }
+
+        .pill-connected .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #059669;
+            border-radius: 50%;
+            margin-left: 8px;
+        }
+
+        .pill-count {
+            background-color: #fef3c7;
+            color: #d97706;
+            border: 1px solid #fde68a;
+        }
+
+        /* --- Table Card --- */
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 18px 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f9fafb;
+            color: #4b5563;
+            font-weight: 700;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .form-type {
+            color: #d97706;
+            font-weight: 700;
+        }
+
+        /* --- Buttons --- */
+        .actions-cell {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .btn-view {
+            color: #d97706;
+            border: 1px solid #fcd34d;
+        }
+        
+        .btn-view:hover {
+            background-color: #fef3c7;
+        }
+
+        .btn-delete {
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+        }
+
+        .btn-delete:hover {
+            background-color: #fee2e2;
+        }
+
+        .loading-row {
+            text-align: center;
+            padding: 40px !important;
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header-card">
+            <div class="header-right">
+                <div class="icon-box">
+                    <i class="fa-solid fa-file-signature"></i>
+                </div>
+                <div class="title-box">
+                    <h1>لوحة تصريح دخول الاتحادات</h1>
+                    <p>متابعة وعرض طلبات الاستمارات بشكل حي ومباشر</p>
+                </div>
+            </div>
+            
+            <div class="header-left">
+                <div class="status-pill pill-connected">
+                    <span class="dot"></span>
+                    متصل
+                </div>
+                <div class="status-pill pill-count">
+                    عدد الاستمارات: <span id="totalCount" style="margin-right: 5px;">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+            <div style="overflow-x: auto;">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>الإجراءات</th>
+                            <th>الدائرة/الجهة</th>
+                            <th>رقم الموبايل</th>
+                            <th>مقدم الطلب</th>
+                            <th>نوع الاستمارة</th>
+                            <th>تاريخ التقديم</th>
+                            <th>ت</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="7" class="loading-row">
+                                <i class="fa-solid fa-spinner fa-spin" style="margin-left: 8px;"></i>
+                                جاري تحميل البيانات...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <script>
+        // إعدادات Firebase الخاصة بك
+        const firebaseConfig = {
+            apiKey: "AIzaSyA5grbOtqMyFJmQJJn3-KU5U_VNDsJeS28",
+            authDomain: "etehad-886a1.firebaseapp.com",
+            projectId: "etehad-886a1",
+            storageBucket: "etehad-886a1.firebasestorage.app",
+            messagingSenderId: "693197380311",
+            appId: "1:693197380311:web:bf7ce3cc0ebaf2a491ee92",
+            measurementId: "G-P6MRQ7LKMH"
+        };
+
+        // تهيئة Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        // متغير عام لتخزين البيانات
+        window.allRecords = {};
+
+        // جلب البيانات من Firebase
+        function fetchData() {
+            db.ref("ministry_employees")
+              .orderByChild("timestamp")
+              .on("value", (snapshot) => {
+                const tableBody = document.getElementById("tableBody");
+                tableBody.innerHTML = ""; // تفريغ الجدول
+                
+                let count = 0;
+                let rowsData = [];
+                window.allRecords = {}; // إعادة تهيئة المتغير
+
+                snapshot.forEach((childSnapshot) => {
+                    const id = childSnapshot.key;
+                    const data = childSnapshot.val();
+                    
+                    window.allRecords[id] = data; // تخزين البيانات
+
+                    rowsData.push({
+                        id: id,
+                        data: data
+                    });
+                });
+
+                // عكس المصفوفة لعرض الأحدث أولاً
+                rowsData.reverse();
+
+                rowsData.forEach((item) => {
+                    const data = item.data;
+                    const docId = item.id;
+                    count++;
+                    
+                    // تحويل الطابع الزمني إلى تنسيق مشابه للصورة
+                    let dateStr = "غير متوفر";
+                    if(data.timestamp) {
+                        const date = new Date(data.timestamp);
+                        
+                        // تنسيق التاريخ (YYYY/MM/DD)
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const formattedDate = `${year}/${month}/${day}`;
+                        
+                        // تنسيق الوقت (hh:mm:ss م/ص)
+                        let hours = date.getHours();
+                        const minutes = String(date.getMinutes()).padStart(2, '0');
+                        const seconds = String(date.getSeconds()).padStart(2, '0');
+                        const ampm = hours >= 12 ? 'م' : 'ص';
+                        hours = hours % 12;
+                        hours = hours ? hours : 12; // الساعة '0' تصبح '12'
+                        const formattedTime = `${hours}:${minutes}:${seconds} ${ampm}`;
+                        
+                        dateStr = `${formattedTime} , ${formattedDate}`;
+                    }
+
+                    const row = `
+                        <tr>
+                            <td>
+                                <div class="actions-cell">
+                                    <button class="btn-action btn-view" onclick="viewRecord('${docId}')">
+                                        <i class="fa-regular fa-eye"></i> عرض
+                                    </button>
+                                    <button class="btn-action btn-delete" onclick="deleteRecord('${docId}')">
+                                        <i class="fa-solid fa-trash-can"></i> حذف
+                                    </button>
+                                </div>
+                            </td>
+                            <td>${data.department || 'غير محدد'}</td>
+                            <td>${data.mobile || 'غير محدد'}</td>
+                            <td>${data.fullname || 'بدون اسم'}</td>
+                            <td class="form-type">${data.formName || 'تصريح دخول الاتحادات'}</td>
+                            <td dir="ltr" style="text-align: right;">${dateStr}</td>
+                            <td>${count}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+
+                document.getElementById("totalCount").innerText = count;
+
+                if(count === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="7" class="loading-row">لا توجد استمارات مسجلة حالياً</td></tr>`;
+                }
+            }, (error) => {
+                console.error("خطأ في جلب البيانات:", error);
+                document.getElementById("tableBody").innerHTML = `<tr><td colspan="7" class="loading-row" style="color:red;">حدث خطأ في تحميل البيانات</td></tr>`;
+            });
+        }
+
+        // دالة الحذف
+        function deleteRecord(id) {
+            if(confirm("هل أنت متأكد من رغبتك في حذف هذه الاستمارة؟")) {
+                db.ref("ministry_employees/" + id).remove().then(() => {
+                    console.log("تم الحذف بنجاح");
+                }).catch((error) => {
+                    console.error("خطأ أثناء الحذف: ", error);
+                    alert("حدث خطأ أثناء الحذف");
+                });
+            }
+        }
+
+        // دالة العرض (فتح الاستمارة الأصلية)
+        function viewRecord(id) {
+            const data = window.allRecords[id];
+            if(data) {
+                // حفظ البيانات مؤقتاً لصفحة الاستمارة
+                localStorage.setItem('viewFullName', data.fullname || '');
+                localStorage.setItem('viewFederation', data.department || '');
+                localStorage.setItem('viewIdNumber', data.idNumber || '');
+                localStorage.setItem('viewPhone', data.mobile || '');
+                
+                // فتح صفحة الاستمارة الأصلية في نافذة جديدة مع تحديد وضع العرض
+                window.open('index.html?mode=view', '_blank');
+            }
+        }
+
+        // استدعاء دالة الجلب عند تحميل الصفحة
+        window.onload = fetchData;
+    </script>
+</body>
+</html>
